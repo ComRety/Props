@@ -3,33 +3,43 @@ import { useRef } from 'react';
 
 import classes from './main.module.css';
 
-export default function ListItem({ activete, children, edit, deleteList, id, isActive }) {
+export default function ListItem({ activete, children, edit, deleteTask, id, isActive }) {
   const input = useRef();
 
-  function toggle(e) {
-    activete(e.target.closest('li').id);
+  function toggle() {
+    activete(id);
   }
 
   function editing(e) {
-    e.closest('li').classList.toggle(classes.editing);
+    e.target.closest('li').classList.toggle(classes.editing);
     input.current.value = children.value;
   }
 
   function edits(event) {
     event.preventDefault();
-    edit(input.current.closest('li').id, input.current.value);
-    event.target.closest('li').classList.toggle(classes.editing);
+    if (input.current.value.trim().length !== 0) {
+      edit(id, input.current.value);
+      event.target.closest('li').classList.toggle(classes.editing);
+    } else {
+      deleteTask(id);
+    }
   }
 
-  function deletes(e) {
-    deleteList(e.target.closest('li'));
+  function deletes() {
+    deleteTask(id);
   }
 
   return (
     <li id={id} className={!isActive ? classes.completed : ''}>
       <div className={classes.view}>
-        <input id="input" type="checkbox" defaultChecked={!isActive} className={classes.toggle} onClick={toggle} />
-        <label htmlFor="input">
+        <input
+          id={`one${String(id)}`}
+          type="checkbox"
+          defaultChecked={!isActive}
+          className={classes.toggle}
+          onClick={toggle}
+        />
+        <label htmlFor={`one${String(id)}`}>
           <span className={classes.description}>{children.value}</span>
           <span className={classes.created}>{`created ${formatDistanceToNow(children.data, {
             addSuffix: true,

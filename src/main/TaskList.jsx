@@ -1,76 +1,17 @@
-import ListItem from './ListItem';
+import Task from './Task';
 import classes from './main.module.css';
 
-let key = 0;
-
-export default function TaskList({ tab, state, activete, edit, deleteList }) {
-  if (tab === 'All') {
-    return (
-      <ul className={classes['todo-list']}>
-        {state.map((item) => {
-          key += 1;
-          return (
-            <ListItem
-              isActive={item.active}
-              activete={activete}
-              key={key}
-              edit={edit}
-              deleteList={deleteList}
-              id={item.id}
-            >
-              {{ value: item.value, data: item.data }}
-            </ListItem>
-          );
-        })}
-      </ul>
-    );
-  }
-  if (tab === 'Active') {
-    return (
-      <ul className={classes['todo-list']}>
-        {state.map((item) => {
-          key += 1;
-          if (item.active) {
-            return (
-              <ListItem
-                isActive={item.active}
-                activete={activete}
-                key={key}
-                edit={edit}
-                deleteList={deleteList}
-                id={item.id}
-              >
-                {{ value: item.value, data: item.data }}
-              </ListItem>
-            );
-          }
-          return null;
-        })}
-      </ul>
-    );
-  }
-  if (tab === 'Completed') {
-    return (
-      <ul className={classes['todo-list']}>
-        {state.map((item) => {
-          key += 1;
-          if (!item.active) {
-            return (
-              <ListItem
-                isActive={item.active}
-                activete={activete}
-                key={key}
-                edit={edit}
-                deleteList={deleteList}
-                id={item.id}
-              >
-                {{ value: item.value, data: item.data }}
-              </ListItem>
-            );
-          }
-          return null;
-        })}
-      </ul>
-    );
-  }
+export default function TaskList({ state, activete, edit, deleteTask }) {
+  return (
+    <ul className={classes['todo-list']}>
+      {state.map((item) => {
+        const key = item.id;
+        return (
+          <Task isActive={item.active} activete={activete} key={key} edit={edit} deleteTask={deleteTask} id={item.id}>
+            {{ value: item.value, data: item.data }}
+          </Task>
+        );
+      })}
+    </ul>
+  );
 }
