@@ -3,15 +3,15 @@ import { useRef } from 'react';
 
 import classes from './main.module.css';
 
-export default function ListItem({ activete, children, edit, deleteTask, id, isActive }) {
+export default function Task({ editStateList, editState, activete, children, edit, deleteTask, id, isActive }) {
   const input = useRef();
 
   function toggle() {
     activete(id);
   }
 
-  function editing(e) {
-    e.target.closest('li').classList.toggle(classes.editing);
+  function editing() {
+    editStateList(id);
     input.current.value = children.value;
   }
 
@@ -19,9 +19,10 @@ export default function ListItem({ activete, children, edit, deleteTask, id, isA
     event.preventDefault();
     if (input.current.value.trim().length !== 0) {
       edit(id, input.current.value);
-      event.target.closest('li').classList.toggle(classes.editing);
+      editStateList(id);
     } else {
-      deleteTask(id);
+      edit(id, children.value);
+      editStateList(id);
     }
   }
 
@@ -30,7 +31,7 @@ export default function ListItem({ activete, children, edit, deleteTask, id, isA
   }
 
   return (
-    <li id={id} className={!isActive ? classes.completed : ''}>
+    <li id={id} className={`${!isActive ? classes.completed : ''} ${!editState ? classes.editing : ''}`}>
       <div className={classes.view}>
         <input
           id={`one${String(id)}`}

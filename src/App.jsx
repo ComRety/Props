@@ -25,6 +25,17 @@ function App() {
     setCount(newCount);
   };
 
+  const editStateList = (ids) => {
+    const newState = [...taskList];
+    newState.forEach((el, i) => {
+      if (Number(el.id) === Number(ids)) {
+        newState[i].editState = !newState[i].editState;
+      }
+    });
+    setTaskList(newState);
+    countTask(newState);
+  };
+
   const deleteTask = (ids) => {
     const newState = taskList.filter((item) => {
       if (Number(item.id) === Number(ids)) {
@@ -55,7 +66,7 @@ function App() {
   const addList = (value, data) => {
     const newState = [...taskList];
     let newCount = count;
-    newState.push({ id, value, active: true, data });
+    newState.push({ id, value, active: true, data, editState: true });
     newCount += 1;
     countTask(newState);
     setTaskList(newState);
@@ -88,7 +99,14 @@ function App() {
   return (
     <section className="todoapp">
       <Header addList={addList} />
-      <Main state={taskList} deleteTask={deleteTask} edit={edit} tab={tab} activete={activete} />
+      <Main
+        state={taskList}
+        editStateList={editStateList}
+        deleteTask={deleteTask}
+        edit={edit}
+        tab={tab}
+        activete={activete}
+      />
       <Footer count={count} tab={tab} footer={footer} deleteCompleted={deleteCompleted} />
     </section>
   );
