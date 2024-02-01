@@ -71,7 +71,6 @@ function App() {
     countTask(newState);
     setTaskList(newState);
     setCount(newCount);
-    console.log(12);
     id += 1;
   };
 
